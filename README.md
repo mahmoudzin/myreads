@@ -25,7 +25,7 @@
 <!-- OVERVIEW -->
 
 ## Overview
-![screenshot](https://github.com/mahmoudzin/myreads/blob/main/main.png)
+![screenshot](https://github.com/mahmoudzin/myreads/blob/master/main.png)
 
 - You Can See Demo from [here](https://mahmoudzin.github.io/myreads/)
 
