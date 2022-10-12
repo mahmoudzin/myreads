@@ -49,22 +49,22 @@ to make this application predictable as able to be I used propTypes with every s
 
 ## Features
 
-1- Dividing the books in three sheleves [Reading, Want to read, Read].
-2- Shifting books from shelf to other shelfs.
-3- Adding new books through searching based on books title and author.
-4- Deleting books.
+1. Dividing the books in three sheleves [Reading, Want to read, Read].
+2. Shifting books from shelf to other shelfs.
+3. Adding new books through searching based on books title and author.
+4. Deleting books.
 
 ## What's next?
 
 there are some helpful ideas to make this app more useable in the future:
 
-1- using state management framework like [`Readux`](https://redux.js.org/).
-2- making user authentication 
-3- Make everyone make their own special library. 
-3- Create new shelves instead of three for everyone, everyone can make their own shelves.
-4- seeing other people's shelves and reacting to them.
-5- setting yearly reading goals and give them a way to see their progress
-6- Make a page that shows Competition among users in achieving their goalsز
+1. using state management framework like [`Readux`](https://redux.js.org/).
+2. making user authentication 
+3. Make everyone make their own special library. 
+3. Create new shelves instead of three for everyone, everyone can make their own shelves.
+4. seeing other people's shelves and reacting to them.
+5. setting yearly reading goals and give them a way to see their progress.
+6. Make a page that shows Competition among users in achieving their goals.
 
 and I believe there are a lot of great ideas that make this app more usable and fun
 
