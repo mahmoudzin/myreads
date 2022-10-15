@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/myreads/static/js/main.746626d9.js",
+    "main.js": "/myreads/static/js/main.0c08de52.js",
     "static/media/searchBackGround.jpg": "/myreads/static/media/searchBackGround.2f57aebc674e9f89a5b5.jpg",
     "static/media/NotFoundImg.png": "/myreads/static/media/NotFoundImg.9b23d2f8e398811e7cf3.png",
     "index.html": "/myreads/index.html",
-    "main.746626d9.js.map": "/myreads/static/js/main.746626d9.js.map"
+    "main.0c08de52.js.map": "/myreads/static/js/main.0c08de52.js.map"
   },
   "entrypoints": [
-    "static/js/main.746626d9.js"
+    "static/js/main.0c08de52.js"
   ]
 }
