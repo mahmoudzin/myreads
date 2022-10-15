@@ -11,51 +11,45 @@ function App() {
     const { toggleColorMode } = useContext(ColorModeContext);
     const [books, setBooks] = useState(null);
     const [shelf, setShelf] = useState('All');
-    const [bookUpdated, setBookUpdate] = useState(false);
-    
+    const [bookUpdated, setBookUpdate] = useState(true);
+    const [bookToUpdateShelf, setBookToUpdateShelf] = useState(null);
+    const [shelfToUpdate, setShelfToUpdate] = useState('');
+
     const filterBooks = useMemo(() => {
-        if(shelf === 'All')
-            return books;
-        else 
-            return books.filter(book => book.shelf === shelf);
-    }, [shelf, books]);
-    
-    const getTheBookNeedToUpdateShelf = useCallback(async(book, shelf) => {
-        
-        setBookUpdate(false);
-        
-        await update(book, shelf);
-        
-        const data = await getAll();
-        
-        setBookUpdate(true);
-        
-        setBooks(data);
-    
-    }, []);
+      if(shelf === 'All')
+          return books;
+      else 
+          return books.filter(book => book.shelf === shelf);
+  }, [shelf, books]);    
+   
+
+    const sendTheBookNeedToUpdateShelf =  useCallback(async() => {
+      if(bookToUpdateShelf && shelfToUpdate) {
+          setBookUpdate(false);
+          await update(bookToUpdateShelf, shelfToUpdate);
+          setBookUpdate(true);
+        }
+    }, [bookToUpdateShelf, shelfToUpdate]);
+
 
     useEffect(()=>{
-        let isCancelled = false;    
-        if(!isCancelled){
-            const getAllBooksFromApi = async ()=>{
-                const res = await getAll();
-                setBooks(res);
-            }    
-            getAllBooksFromApi();
-            setBookUpdate(true);
+        const getAllBooksFromApi = async ()=>{
+          const res = await getAll();
+          setBooks(res);
         }
-    
-        return ()=> isCancelled = true;
-
-      }, []);
+        const getBooks = async ()=>{
+          await sendTheBookNeedToUpdateShelf();
+          await getAllBooksFromApi(); 
+        }
+        getBooks()   
+      }, [sendTheBookNeedToUpdateShelf]);
 
   return (
     <>
       <AppNavBar {...{ toggleColorMode }}/>
       <Routes>
-        <Route path='' element={ <Home {...{setShelf, shelf, books, getTheBookNeedToUpdateShelf, filterBooks, bookUpdated}}/> }>
-        </Route>
-        <Route path='search' element={ <Search updateShelf={getTheBookNeedToUpdateShelf}/> }/>
+        <Route path='' element={ <Home {...{setShelf, shelf, books, setBookToUpdateShelf, setShelfToUpdate, filterBooks, bookUpdated}}/> }/>
+        <Route path='search' element={ <Search setBookToUpdateShelf={setBookToUpdateShelf} setShelfToUpdate={setShelfToUpdate} books={books}/>}/>
         <Route path='*' element={ <NotFound /> }/>
       </Routes>
     </>

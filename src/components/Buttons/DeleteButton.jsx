@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function DeleteButton({ setShelf, bookUpdated }) {
+function DeleteButton({ book, setBookToUpdateShelf, setShelfToUpdate, bookUpdated}) {
+    
+    const handleClick = ()=> {
+        setBookToUpdateShelf(book);
+        setShelfToUpdate('none');
+    }
     return (
         <div>
             <Button 
-                onClick={()=> setShelf('none')} 
-                sx={{minWidth: '200px'}} 
+                onClick={handleClick} 
+                sx={{minWidth: '150px'}} 
                 variant="contained" 
                 color="error" 
                 startIcon={<DeleteIcon />}>

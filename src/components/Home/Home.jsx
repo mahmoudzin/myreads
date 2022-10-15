@@ -4,7 +4,7 @@ import Sidebar from './Sidebar';
 import Shelf from './../Shelf/Shelf';
 import { Grid } from '@mui/material';
 
-const Home = ({ setShelf, shelf, books, getTheBookNeedToUpdateShelf, filterBooks, bookUpdated }) => {
+const Home = ({ setShelf, shelf, books, setBookToUpdateShelf, setShelfToUpdate, filterBooks, bookUpdated }) => {
     return (
         <>
             <Grid container>
@@ -17,21 +17,24 @@ const Home = ({ setShelf, shelf, books, getTheBookNeedToUpdateShelf, filterBooks
                    {shelf === "All" && books?
                      <>
                         <Shelf 
-                            updateShelf={getTheBookNeedToUpdateShelf}
+                            setBookToUpdateShelf ={setBookToUpdateShelf}
+                            setShelfToUpdate={setShelfToUpdate}
                             type="currentlyReading" 
                             books={filterBooks.filter(book => book.shelf === "currentlyReading")}
                             bookUpdated={bookUpdated}
                             search={false}
                         />
                         <Shelf 
-                            updateShelf={getTheBookNeedToUpdateShelf}
+                            setBookToUpdateShelf ={setBookToUpdateShelf}
+                            setShelfToUpdate={setShelfToUpdate}
                             type="wantToRead" 
                             books={filterBooks.filter(book => book.shelf === "wantToRead")}
                             bookUpdated={bookUpdated}
                             search={false}
                         />
                         <Shelf
-                            updateShelf={getTheBookNeedToUpdateShelf} 
+                            setBookToUpdateShelf ={setBookToUpdateShelf}
+                            setShelfToUpdate={setShelfToUpdate} 
                             type="read" 
                             books={filterBooks.filter(book => book.shelf === "read")}
                             bookUpdated={bookUpdated}
@@ -39,7 +42,8 @@ const Home = ({ setShelf, shelf, books, getTheBookNeedToUpdateShelf, filterBooks
                         />
                      </> 
                     : <Shelf 
-                        updateShelf={getTheBookNeedToUpdateShelf}
+                        setBookToUpdateShelf ={setBookToUpdateShelf}
+                        setShelfToUpdate={setShelfToUpdate}
                         type={shelf} 
                         books={filterBooks}
                         bookUpdated={bookUpdated}
@@ -55,10 +59,9 @@ const Home = ({ setShelf, shelf, books, getTheBookNeedToUpdateShelf, filterBooks
 Home.propTypes ={
     setShelf: PropTypes.func.isRequired, 
     shelf: PropTypes.string.isRequired, 
-    books: PropTypes.arrayOf(PropTypes.object).isRequired, 
-    getTheBookNeedToUpdateShelf: PropTypes.func.isRequired, 
-    filterBooks: PropTypes.arrayOf(PropTypes.object).isRequired, 
-    bookUpdated: PropTypes.func.isRequired
+    books: PropTypes.arrayOf(PropTypes.object), 
+    filterBooks: PropTypes.arrayOf(PropTypes.object), 
+    bookUpdated: PropTypes.bool.isRequired
 };
 
 export default React.memo(Home);

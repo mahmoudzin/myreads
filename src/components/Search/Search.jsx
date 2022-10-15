@@ -6,6 +6,7 @@ import Shelf from '../Shelf/Shelf';
 import searchBackground from './searchBackGround.jpg'
 import { makeStyles } from '@mui/styles';
 import { Grid, Typography } from '@mui/material';
+import Loading from '../Loading/Loading';
 
 
 
@@ -36,55 +37,81 @@ const useStyles = makeStyles((theme)=> ({
         }
     }    
 }));
-function Search({ updateShelf }) {
+function Search({ setBookToUpdateShelf, setShelfToUpdate, books }) {
     const classes = useStyles();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState(null);
     const [emptyQuery, setEmptyQueryMsg] = useState('');
+    const [loading, setLoading] = useState(false);
     
     useEffect(()=>{
         let isCancelled = false;
-
+        let debounce;
         if(!isCancelled && query) {
+            setLoading(true);
             const searchBooks =  async () => { 
                 const res = await search(query.trim(), 20);
-                console.log(query.trim());
+                console.log(res);
+                setResults(null);
                 if(res.length > 0) {
                     setResults(res);
                     setEmptyQueryMsg('');
+                    setLoading(false);
                 }else {
                     setEmptyQueryMsg('There no results match your query <:');
                     setResults(null);
+                    setLoading(false);
                 }
+                //console.log(loading);
             }
-            searchBooks();
-        }else setResults(null);
+            debounce = setTimeout(() => {
+                searchBooks();
+            }, 2000);
+
+        }else {
+            setResults(null);
+            setEmptyQueryMsg('');
+            setLoading(false);
+        }
 
         return () => {
-            isCancelled = true
+            isCancelled = true;
+            clearTimeout(debounce)
         };
     }, [query]);
+
     return (
+    <>
+       
         <div className={classes.backgroundImg}>
             <SearchInput classes={classes.searchInput} setQuery={setQuery} query={query}/>
+            {loading ? <Loading /> :
             <div className={classes.results}>
                 {query ? emptyQuery ?
                 <Typography variant="h6" mb={5} color='#fff'> {emptyQuery} </Typography>
                 :<Typography variant="h6" mb={5} color='#fff'> The Results Mathed <Typography sx={{fontSize: '1.5rem'}} component='span' color='secondary.main'>"{query}"</Typography> </Typography>
                 : ''
                 }
-                {query ?
+                {query && results?
                 <Grid container className={classes.container}>
-                    <Shelf books={results} search={true} updateShelf={updateShelf}/>
+                    <Shelf 
+                        books={results}
+                        mainBooks={books} 
+                        search={true} 
+                        setBookToUpdateShelf ={setBookToUpdateShelf}
+                        setShelfToUpdate={setShelfToUpdate}
+                    />
                 </Grid>
                 : ''}
             </div>
+            }
         </div>
+    </>
     );
 };
 
 Search.propTypes = {
-    updateShelf: PropTypes.func.isRequired
+    
 };
 
 export default React.memo(Search);

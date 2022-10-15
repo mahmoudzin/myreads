@@ -4,7 +4,7 @@ import BookCard from './../BookCard.jsx/BookCard';
 import Loading from './../Loading/Loading';
 import { Typography } from '@mui/material';
 
-function Shelf({ type, books, updateShelf, bookUpdated, search }) {
+function Shelf({ type, books, mainBooks, setBookToUpdateShelf, setShelfToUpdate, bookUpdated, search }) {
     let title = '';
 
     if(!search){
@@ -21,14 +21,21 @@ function Shelf({ type, books, updateShelf, bookUpdated, search }) {
             
             <Typography variant="h4" component="h2" mt={5} mb={5}>{search ? '' : title}</Typography>
             {books 
-                ? books.map(
-                    book => <BookCard 
+                ? books.map( 
+                    book => {
+                    const setShelf = search && mainBooks.find(b => b.id === book.id); 
+                    if (setShelf) {
+                        book.shelf = setShelf.shelf
+                    }
+                    return <BookCard 
                         key={book.id} 
                         book={book} 
-                        updateShelf={updateShelf}
+                        setBookToUpdateShelf ={setBookToUpdateShelf}
+                        setShelfToUpdate={setShelfToUpdate}
                         bookUpdated={bookUpdated}
                         search={search}
                     />
+                    }
                 )
                 : search ? '' : <Loading/>
             }
@@ -39,7 +46,6 @@ function Shelf({ type, books, updateShelf, bookUpdated, search }) {
 Shelf.propTypes = {
     type: PropTypes.string, 
     books: PropTypes.arrayOf(PropTypes.object), 
-    updateShelf: PropTypes.func.isRequired, 
     bookUpdated: PropTypes.bool, 
     search: PropTypes.bool
 };

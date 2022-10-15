@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import OptionsButton from '../Buttons/OptionsButton';
 import DeleteButton from './../Buttons/DeleteButton';
@@ -28,24 +28,19 @@ const useStyles = makeStyles((theme)=> ({
         [theme.breakpoints.down('md')]:{
             alignItems: 'start',
         }
+    },
+    info:{
+        padding: '0 5px'
     }
 }));
 
 
-const BookCard = ({ book, updateShelf, bookUpdated, search }) => {
-    
-    const [shelf, setShelf] = useState('');
+const BookCard = ({ book, setBookToUpdateShelf, setShelfToUpdate, bookUpdated, search }) => {
 
     const classes = useStyles();
     const descriptionForamt = book.description ? book.description.split(' ').slice(0, 19).join(' ') : 'there no description for this book.....';
     const titleForamt = book?.title.split(' ').slice(0, 4).join(' ');
-    
-    useEffect(()=> {
-        let isCancelled = false;
-        if(!isCancelled && shelf)
-            updateShelf(book, shelf);
-        return ()=> isCancelled = true;
-    }, [shelf])
+
     
     return (
         <>
@@ -53,7 +48,7 @@ const BookCard = ({ book, updateShelf, bookUpdated, search }) => {
                 {book.title ?
                 <>
                     <Grid item md={2} sm={3} xs={12} className={classes.bookImage}>
-                        <img src={book.imageLinks ? book.imageLinks.smallThumbnail : CoveBookImg} alt="book cover"/>
+                        <img style={{maxWidth: '100%'}} src={book.imageLinks ? book.imageLinks.smallThumbnail : CoveBookImg} alt="book cover"/>
                     </Grid>
                     
                     <Grid item md={7} sm={9} className={classes.info}>
@@ -79,11 +74,19 @@ const BookCard = ({ book, updateShelf, bookUpdated, search }) => {
                     <Grid item md={3} sm={12} className={classes.control}>
                             <OptionsButton  
                                 shelf={book.shelf}
-                                setShelf={setShelf}
+                                setBookToUpdateShelf ={setBookToUpdateShelf}
+                                setShelfToUpdate={setShelfToUpdate}
                                 bookUpdated={bookUpdated}
+                                book={book}
                                 search={search}
                             />
-                            {!search && <DeleteButton setShelf={setShelf} bookUpdated={bookUpdated} />}
+                            {!search && 
+                                <DeleteButton 
+                                    setBookToUpdateShelf ={setBookToUpdateShelf}
+                                    setShelfToUpdate={setShelfToUpdate}
+                                    bookUpdated={bookUpdated} 
+                                    book={book}
+                                />}
                             
                     </Grid>
                 </> 
@@ -97,7 +100,6 @@ const BookCard = ({ book, updateShelf, bookUpdated, search }) => {
 
 BookCard.propTypes = {
     book: PropTypes.object.isRequired, 
-    updateShelf: PropTypes.func.isRequired, 
     bookUpdated: PropTypes.bool,
     search: PropTypes.bool
 };

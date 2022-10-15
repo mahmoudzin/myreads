@@ -46,7 +46,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const OptionsButtons = ({ shelf, setShelf, bookUpdated, search }) => {
+const OptionsButtons = ({ shelf, book, setBookToUpdateShelf, setShelfToUpdate, bookUpdated, search }) => {
   
   const [anchorEl, setAnchorEl] = useState(null);
   const [newShelf, setNewShelf] = useState('');
@@ -63,7 +63,8 @@ const OptionsButtons = ({ shelf, setShelf, bookUpdated, search }) => {
 
   const handleShelvClick = (shelf) => {
     setNewShelf(shelf)
-    setShelf(shelf);
+    setBookToUpdateShelf(book);
+    setShelfToUpdate(shelf)
     handleClose();
   };
 
@@ -71,7 +72,7 @@ const OptionsButtons = ({ shelf, setShelf, bookUpdated, search }) => {
     <div>
       <Button
         id="demo-customized-button"
-        sx={{minWidth: '200px', margin: '10px 0'}}
+        sx={{maxWidth: '200px', minWidth: '150px', margin: '10px 0'}}
         color='secondary'
         aria-controls={open ? 'demo-customized-menu' : undefined}
         aria-haspopup="true"
@@ -81,7 +82,8 @@ const OptionsButtons = ({ shelf, setShelf, bookUpdated, search }) => {
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
       >
-        {search ? newShelf ? newShelf : 'none' : bookUpdated ? shelf : "wait..."}
+        
+        {search ? newShelf ? newShelf : shelf ? shelf : 'none' : bookUpdated ? shelf : "wait..."}
       </Button>
       <StyledMenu
         id="demo-customized-menu"
